@@ -23,6 +23,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Custom
 
     public interface OnItemClickListener {
         void onEditClick(int position);
+
         void onDeleteClick(int position);
     }
 
