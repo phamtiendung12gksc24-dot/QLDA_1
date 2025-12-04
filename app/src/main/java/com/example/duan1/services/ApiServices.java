@@ -1,6 +1,7 @@
 package com.example.duan1.services;
 
 import com.example.duan1.model.CartItem;
+import com.example.duan1.model.DanhMuc;
 import com.example.duan1.model.Order;
 import com.example.duan1.model.OrderStatusData;
 import com.example.duan1.model.Product;
@@ -11,12 +12,16 @@ import com.example.duan1.model.User;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface ApiServices {
@@ -37,11 +42,38 @@ public interface ApiServices {
     @GET("api/products")
     Call<Response<List<Product>>> getProducts();
     
+    @GET("api/products")
+    Call<Response<List<Product>>> getAllProducts();
+    
     @GET("api/products/{id}")
     Call<Response<Product>> getProductById(@Path("id") String id);
     
     @GET("api/products/search/{keyword}")
     Call<Response<List<Product>>> searchProducts(@Path("keyword") String keyword);
+    
+    @Multipart
+    @POST("api/products")
+    Call<Response<Product>> createProduct(
+            @Part("name") RequestBody name,
+            @Part("description") RequestBody description,
+            @Part("price") RequestBody price,
+            @Part("category_id") RequestBody categoryId,
+            @Part MultipartBody.Part image
+    );
+    
+    @Multipart
+    @PUT("api/products/{id}")
+    Call<Response<Product>> updateProduct(
+            @Path("id") String id,
+            @Part("name") RequestBody name,
+            @Part("description") RequestBody description,
+            @Part("price") RequestBody price,
+            @Part("category_id") RequestBody categoryId,
+            @Part MultipartBody.Part image
+    );
+    
+    @DELETE("api/products/{id}")
+    Call<Response<Void>> deleteProduct(@Path("id") String id);
 
     // ==================== ORDER APIs ====================
     @GET("api/orders")
@@ -101,4 +133,17 @@ public interface ApiServices {
     // ==================== CREATE ORDER APIs ====================
     @POST("api/orders/create")
     Call<Response<Order>> createOrder(@Body Map<String, String> body);
+
+    // ==================== CATEGORY APIs ====================
+    @GET("api/categories")
+    Call<Response<List<DanhMuc>>> getAllCategories();
+    
+    @POST("api/categories")
+    Call<Response<DanhMuc>> createCategory(@Body Map<String, String> body);
+    
+    @PUT("api/categories/{id}")
+    Call<Response<DanhMuc>> updateCategory(@Path("id") String id, @Body Map<String, String> body);
+    
+    @DELETE("api/categories/{id}")
+    Call<Response<Void>> deleteCategory(@Path("id") String id);
 }

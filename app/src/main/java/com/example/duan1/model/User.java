@@ -3,7 +3,7 @@ package com.example.duan1.model;
 import com.google.gson.annotations.SerializedName;
 
 public class User {
-    @SerializedName("_id")
+    @SerializedName(value = "_id", alternate = {"id"})
     private String id;
     private String name;
     private String phone;

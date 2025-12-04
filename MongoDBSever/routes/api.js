@@ -528,10 +528,13 @@ router.get('/cart/:userId', async (req, res) => {
     const cartItems = await CartItems.find({ user_id: req.params.userId })
       .populate('product_id');
     
+    // Convert sang plain objects để đảm bảo JSON serialize đúng
+    const cartItemsData = cartItems.map(item => item.toObject());
+    
     res.json({
       success: true,
       message: "Lấy giỏ hàng thành công",
-      data: cartItems
+      data: cartItemsData
     });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
@@ -567,10 +570,13 @@ router.post('/cart/add', async (req, res) => {
       // Populate product_id trước khi trả về
       const populatedItem = await CartItems.findById(existingItem._id).populate('product_id');
       
+      // Convert sang plain object để đảm bảo JSON serialize đúng
+      const cartItemData = populatedItem ? populatedItem.toObject() : existingItem.toObject();
+      
       res.json({
         success: true,
         message: "Cập nhật giỏ hàng thành công",
-        data: populatedItem
+        data: cartItemData
       });
     } else {
       // Nếu chưa có, tạo mới
@@ -584,10 +590,13 @@ router.post('/cart/add', async (req, res) => {
       // Populate product_id trước khi trả về
       const populatedItem = await CartItems.findById(newCartItem._id).populate('product_id');
       
+      // Convert sang plain object để đảm bảo JSON serialize đúng
+      const cartItemData = populatedItem ? populatedItem.toObject() : newCartItem.toObject();
+      
       res.json({
         success: true,
         message: "Thêm vào giỏ hàng thành công",
-        data: populatedItem
+        data: cartItemData
       });
     }
   } catch (err) {

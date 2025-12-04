@@ -87,8 +87,16 @@ public class Dangnhap extends AppCompatActivity {
                             editor.putString("password", user.getPass()); // Lưu mật khẩu
                             editor.putString("sdt", user.getPhone());
                             editor.putString("name", user.getName());
-                            editor.putString("id_taikhoan", user.getId());
+                            
+                            String userId = user.getId();
+                            Log.d("Login Debug", "User ID from API: " + userId);
+                            editor.putString("id_taikhoan", userId);
                             editor.apply();
+                            
+                            // Verify saved userId
+                            String savedUserId = sharedPref.getString("id_taikhoan", "");
+                            Log.d("Login Debug", "Saved User ID: " + savedUserId);
+                            
                             saveUserInfo(email, password);
 
                             Toast.makeText(Dangnhap.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
