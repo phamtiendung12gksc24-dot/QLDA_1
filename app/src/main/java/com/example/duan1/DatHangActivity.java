@@ -38,7 +38,6 @@ public class DatHangActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dat_hang);
 
-        // Khởi tạo
         apiServices = RetrofitClient.getInstance().getApiServices();
         sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
         userId = sharedPreferences.getString("id_taikhoan", "");
