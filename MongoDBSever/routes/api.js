@@ -564,10 +564,13 @@ router.post('/cart/add', async (req, res) => {
       existingItem.subtotal = existingItem.quantity * product.price;
       await existingItem.save();
       
+      // Populate product_id trước khi trả về
+      const populatedItem = await CartItems.findById(existingItem._id).populate('product_id');
+      
       res.json({
         success: true,
         message: "Cập nhật giỏ hàng thành công",
-        data: existingItem
+        data: populatedItem
       });
     } else {
       // Nếu chưa có, tạo mới
@@ -578,10 +581,13 @@ router.post('/cart/add', async (req, res) => {
         subtotal
       });
       
+      // Populate product_id trước khi trả về
+      const populatedItem = await CartItems.findById(newCartItem._id).populate('product_id');
+      
       res.json({
         success: true,
         message: "Thêm vào giỏ hàng thành công",
-        data: newCartItem
+        data: populatedItem
       });
     }
   } catch (err) {

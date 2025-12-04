@@ -187,10 +187,21 @@ public class XemSanPham extends AppCompatActivity {
     }
 
     private void addToCart(Product product) {
+        // Kiểm tra userId
         if (userId == null || userId.isEmpty()) {
             Toast.makeText(this, "Vui lòng đăng nhập để thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+            Log.e("Cart Error", "UserId is empty or null");
             return;
         }
+
+        // Kiểm tra product ID
+        if (product == null || product.getId() == null || product.getId().isEmpty()) {
+            Toast.makeText(this, "Lỗi: Không có thông tin sản phẩm", Toast.LENGTH_SHORT).show();
+            Log.e("Cart Error", "Product ID is empty or null");
+            return;
+        }
+
+        Log.d("Cart Debug", "Adding to cart - UserId: " + userId + ", ProductId: " + product.getId());
 
         Map<String, Object> body = new HashMap<>();
         body.put("user_id", userId);
@@ -202,20 +213,37 @@ public class XemSanPham extends AppCompatActivity {
             public void onResponse(Call<Response<CartItem>> call, retrofit2.Response<Response<CartItem>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Response<CartItem> res = response.body();
+                    Log.d("Cart Debug", "Response success: " + res.isSuccess() + ", Message: " + res.getMessage());
+                    
                     if (res.isSuccess()) {
                         Toast.makeText(XemSanPham.this, "Đã thêm " + product.getName() + " vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                        Log.d("Cart Debug", "Successfully added to cart");
                     } else {
-                        Toast.makeText(XemSanPham.this, "Thêm vào giỏ hàng thất bại: " + res.getMessage(), Toast.LENGTH_SHORT).show();
+                        String errorMsg = res.getMessage() != null ? res.getMessage() : "Không xác định";
+                        Toast.makeText(XemSanPham.this, "Thêm vào giỏ hàng thất bại: " + errorMsg, Toast.LENGTH_LONG).show();
+                        Log.e("Cart Error", "Add to cart failed: " + errorMsg);
                     }
                 } else {
-                    Toast.makeText(XemSanPham.this, "Thêm vào giỏ hàng thất bại", Toast.LENGTH_SHORT).show();
+                    String errorMsg = "Lỗi từ server";
+                    if (response.errorBody() != null) {
+                        try {
+                            errorMsg = response.errorBody().string();
+                            Log.e("Cart Error", "Error body: " + errorMsg);
+                        } catch (Exception e) {
+                            Log.e("Cart Error", "Cannot read error body: " + e.getMessage());
+                        }
+                    }
+                    Toast.makeText(XemSanPham.this, "Thêm vào giỏ hàng thất bại: " + errorMsg, Toast.LENGTH_LONG).show();
+                    Log.e("Cart Error", "Response not successful. Code: " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<Response<CartItem>> call, Throwable t) {
-                Toast.makeText(XemSanPham.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e("API Error", t.toString());
+                String errorMsg = t.getMessage() != null ? t.getMessage() : "Lỗi kết nối";
+                Toast.makeText(XemSanPham.this, "Lỗi kết nối: " + errorMsg, Toast.LENGTH_LONG).show();
+                Log.e("Cart Error", "Network error: " + t.toString());
+                t.printStackTrace();
             }
         });
     }
