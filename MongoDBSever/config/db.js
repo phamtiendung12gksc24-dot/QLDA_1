@@ -5,10 +5,7 @@ mongoose.set('strictQuery', true);
 const local = 'mongodb://127.0.0.1:27017/Duan1';
 const connect = async () => {
     try {
-        await mongoose.connect(local, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        await mongoose.connect(local);
         console.log('✅ connect success');
     } catch (error) {
         console.error(error);

@@ -1,0 +1,75 @@
+========================================
+   LENH KET NOI SERVER
+========================================
+
+CACH 1: DUNG FILE BATCH (DE NHAT)
+========================================
+Double-click file: KHOI_DONG_SERVER.bat
+
+Hoac chay trong PowerShell:
+.\KHOI_DONG_SERVER.bat
+
+========================================
+CACH 2: CHAY BANG LENH
+========================================
+
+Bước 1: Khởi động MongoDB
+---------------------------
+net start MongoDB
+
+Bước 2: Vào thư mục MongoDBSever
+---------------------------
+cd MongoDBSever
+
+Bước 3: Khởi động Server
+---------------------------
+npm start
+
+Hoac:
+npm run dev
+
+Hoac:
+node ./bin/www
+
+========================================
+CACH 3: DUNG FILE CO SAN
+========================================
+cd MongoDBSever
+start.bat
+
+========================================
+KIEM TRA SERVER
+========================================
+
+1. Mở browser vào:
+   http://localhost:3000/api/products
+
+2. Nếu thấy JSON response → Server đang chạy ✓
+
+3. Nếu không kết nối được:
+   - Kiểm tra MongoDB đang chạy: net start MongoDB
+   - Kiểm tra port 3000: netstat -ano | findstr :3000
+   - Xem lỗi trong terminal
+
+========================================
+CAU HINH IP CHO ANDROID
+========================================
+
+App đang chạy trên EMULATOR:
+- IP đã được cấu hình: http://10.0.2.2:3000/
+- Đây là IP đặc biệt cho emulator
+
+Nếu dùng thiết bị THẬT:
+- Cần đổi IP thành IP thật của máy
+- IP hiện tại máy: 192.168.2.44
+- Đổi trong: app/src/main/java/com/example/duan1/services/ApiServices.java
+
+========================================
+LUU Y
+========================================
+
+✓ MongoDB phải chạy trước
+✓ Server chạy trên port 3000
+✓ IP cho emulator: 10.0.2.2
+✓ IP cho thiết bị thật: 192.168.2.44
+

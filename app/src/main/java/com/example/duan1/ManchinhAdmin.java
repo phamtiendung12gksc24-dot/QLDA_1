@@ -3,6 +3,7 @@ package com.example.duan1;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -40,6 +41,14 @@ public class ManchinhAdmin extends AppCompatActivity {
         btnDatHang = findViewById(R.id.btnDatHang);
         btnTaiKhoan = findViewById(R.id.btnTaiKhoan);
         btnLogin = findViewById(R.id.btnLogin);
+        
+        // Kiểm tra null
+        if (btnGioHang == null) {
+            Log.e("ManchinhAdmin", "btnGioHang is null!");
+        }
+        if (btnDatHang == null) {
+            Log.e("ManchinhAdmin", "btnDatHang is null!");
+        }
 
         // Lấy thông tin người dùng từ SharedPreferences
         sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
@@ -55,13 +64,24 @@ public class ManchinhAdmin extends AppCompatActivity {
             }
         });
 
-        btnGioHang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ManchinhAdmin.this, "Giỏ hàng", Toast.LENGTH_SHORT).show();
-                // TODO: Chuyển đến màn hình giỏ hàng
-            }
-        });
+        if (btnGioHang != null) {
+            btnGioHang.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Log.d("ManchinhAdmin", "Button Giỏ hàng clicked");
+                        Intent intent = new Intent(ManchinhAdmin.this, GioHangActivity.class);
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Log.e("ManchinhAdmin", "Error opening GioHangActivity", e);
+                        Toast.makeText(ManchinhAdmin.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } else {
+            Log.e("ManchinhAdmin", "btnGioHang is null, cannot set listener!");
+        }
 
         btnLichSuDonHang.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,13 +91,24 @@ public class ManchinhAdmin extends AppCompatActivity {
             }
         });
 
-        btnDatHang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ManchinhAdmin.this, "Đặt hàng", Toast.LENGTH_SHORT).show();
-                // TODO: Chuyển đến màn hình đặt hàng
-            }
-        });
+        if (btnDatHang != null) {
+            btnDatHang.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Log.d("ManchinhAdmin", "Button Đặt hàng clicked");
+                        Intent intent = new Intent(ManchinhAdmin.this, DatHangActivity.class);
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Log.e("ManchinhAdmin", "Error opening DatHangActivity", e);
+                        Toast.makeText(ManchinhAdmin.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } else {
+            Log.e("ManchinhAdmin", "btnDatHang is null, cannot set listener!");
+        }
 
         btnTaiKhoan.setOnClickListener(new View.OnClickListener() {
             @Override

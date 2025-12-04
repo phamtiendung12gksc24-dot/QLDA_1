@@ -1,0 +1,28 @@
+========================================
+  SUA BUTTON GIO HANG VA DAT HANG
+========================================
+
+DA SUA:
+✓ Button "Giỏ hàng" - da co listener
+✓ Button "Đặt hàng" - da sua de chuyen den DatHangActivity
+✓ Them error handling va log
+
+QUAN TRONG NHAT:
+→ PHẢI REBUILD APP!
+
+CACH REBUILD:
+1. Double-click: REBUILD_APP_NGAY.bat
+2. Hoac tu Android Studio: Build → Clean → Rebuild
+3. Hoac xoa app cu va cai lai
+
+SAU KHI REBUILD:
+- Click "Giỏ hàng" → Se chuyen den man hinh gio hang
+- Click "Đặt hàng" → Se chuyen den man hinh dat hang
+
+NEU VAN LOI:
+- Mo Logcat trong Android Studio
+- Tim tag: "ManchinhAdmin"
+- Xem co loi gi khong
+
+========================================
+

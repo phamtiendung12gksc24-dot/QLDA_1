@@ -1,0 +1,39 @@
+========================================
+  HUONG DAN SU DUNG GIO HANG & DAT HANG
+========================================
+
+CAC CHUC NANG DA CO SAN:
+
+1. THEM VAO GIO HANG
+   - Tu man hinh "Xem san pham"
+   - Click button "Them vao gio" tren san pham
+   - San pham se duoc them vao gio hang
+
+2. XEM GIO HANG
+   - Click button "Gio hang" tu man hinh Admin
+   - Xem danh sach san pham da them
+   - Tang/giam so luong
+   - Xoa san pham
+   - Xem tong tien
+
+3. DAT HANG
+   - Tu man hinh Gio hang: Click "Dat hang"
+   - Hoac tu man hinh Admin: Click "Dat hang"
+   - Nhap thong tin nguoi nhan
+   - Xac nhan dat hang
+
+QUY TRINH DAY DU:
+
+1. Dang nhap → Man hinh Admin
+2. Xem san pham → Chon san pham → Them vao gio
+3. Xem gio hang → Kiem tra → Dat hang
+4. Nhap thong tin → Xac nhan → Thanh cong!
+
+LUU Y:
+
+✓ Phai dang nhap truoc khi them vao gio
+✓ Server phai dang chay (port 3000)
+✓ Rebuild app neu co thay doi code
+
+========================================
+

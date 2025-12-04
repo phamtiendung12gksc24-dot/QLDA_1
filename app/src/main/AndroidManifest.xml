@@ -39,6 +39,12 @@
             android:name=".ThongKeBaoHanh"
             android:exported="false" />
         <activity
+            android:name=".GioHangActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DatHangActivity"
+            android:exported="false" />
+        <activity
             android:name=".Welecom"
             android:exported="true">
             <intent-filter>

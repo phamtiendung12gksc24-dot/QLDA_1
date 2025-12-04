@@ -1,5 +1,6 @@
 package com.example.duan1;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.duan1.model.CartItem;
 import com.example.duan1.model.Product;
 import com.example.duan1.model.Response;
 import com.example.duan1.services.ApiServices;
@@ -21,7 +23,9 @@ import com.example.duan1.utils.RetrofitClient;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +40,8 @@ public class XemSanPham extends AppCompatActivity {
     private int quantity = 0;
     private LinearLayout navTrangChu, navBoSuuTap, navTaiKhoan, navDonHang, navMenu;
     private ApiServices apiServices;
+    private SharedPreferences sharedPreferences;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,10 @@ public class XemSanPham extends AppCompatActivity {
 
         // Khởi tạo Retrofit
         apiServices = RetrofitClient.getInstance().getApiServices();
+        
+        // Lấy user ID
+        sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE);
+        userId = sharedPreferences.getString("id_taikhoan", "");
         
         // Ánh xạ các view
         rvProducts = findViewById(R.id.rvProducts);
@@ -103,8 +113,7 @@ public class XemSanPham extends AppCompatActivity {
 
         // Xử lý thêm vào giỏ hàng
         productAdapter.setOnAddToCartClickListener(product -> {
-            Toast.makeText(this, "Đã thêm " + product.getName() + " vào giỏ hàng", Toast.LENGTH_SHORT).show();
-            // TODO: Thêm logic thêm vào giỏ hàng
+            addToCart(product);
         });
 
         // Xử lý bottom navigation
@@ -172,6 +181,40 @@ public class XemSanPham extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Response<List<Product>>> call, Throwable t) {
+                Log.e("API Error", t.toString());
+            }
+        });
+    }
+
+    private void addToCart(Product product) {
+        if (userId == null || userId.isEmpty()) {
+            Toast.makeText(this, "Vui lòng đăng nhập để thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("user_id", userId);
+        body.put("product_id", product.getId());
+        body.put("quantity", 1); // Mặc định thêm 1 sản phẩm
+
+        apiServices.addToCart(body).enqueue(new Callback<Response<CartItem>>() {
+            @Override
+            public void onResponse(Call<Response<CartItem>> call, retrofit2.Response<Response<CartItem>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Response<CartItem> res = response.body();
+                    if (res.isSuccess()) {
+                        Toast.makeText(XemSanPham.this, "Đã thêm " + product.getName() + " vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(XemSanPham.this, "Thêm vào giỏ hàng thất bại: " + res.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(XemSanPham.this, "Thêm vào giỏ hàng thất bại", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Response<CartItem>> call, Throwable t) {
+                Toast.makeText(XemSanPham.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("API Error", t.toString());
             }
         });

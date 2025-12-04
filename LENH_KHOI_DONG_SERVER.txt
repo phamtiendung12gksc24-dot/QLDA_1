@@ -1,0 +1,49 @@
+========================================
+  LENH KHOI DONG SERVER - HUONG DAN NHANH
+========================================
+
+CACH 1: Dung file batch (DE NHAT)
+-----------------------------------
+Double-click file: CHAY_SERVER.bat
+Hoac: KHOI_DONG_SERVER.bat
+
+
+CACH 2: Dung PowerShell/CMD
+-----------------------------------
+cd MongoDBSever
+npm start
+
+
+CACH 3: Dung PowerShell tu thu muc goc
+-----------------------------------
+cd MongoDBSever; npm start
+
+
+KIEM TRA SERVER DANG CHAY
+-----------------------------------
+# PowerShell:
+netstat -ano | Select-String ":3000"
+
+# CMD:
+netstat -ano | findstr :3000
+
+Neu thay "LISTENING" → Server dang chay ✓
+
+
+TEST API TRONG BROWSER
+-----------------------------------
+Mo browser: http://localhost:3000/api/products
+
+Neu thay JSON data → Server chay dung ✓
+
+
+DUNG SERVER
+-----------------------------------
+# Cach 1: Nhan Ctrl+C trong cua so dang chay
+# Cach 2: Dung file batch: DUNG_SERVER.bat
+# Cach 3: PowerShell:
+taskkill /F /IM node.exe
+
+
+========================================
+

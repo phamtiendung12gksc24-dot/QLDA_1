@@ -9,8 +9,8 @@ public class Product {
     private String description;
     private double price;
     private String image;
-    @SerializedName("category_id")
-    private String categoryId;
+    private Category category; // Category object khi được populate (từ API)
+    private String categoryId; // Category ID (string) - dùng getCategoryId() để lấy
     private int quantity; // Số lượng bán (cho top products)
     private int colorResId; // Màu cho icon vuông
 
@@ -67,12 +67,26 @@ public class Product {
     }
 
     public String getCategoryId() {
+        // Nếu có Category object (khi API populate), lấy id từ đó
+        if (category != null && category.getId() != null) {
+            return category.getId();
+        }
+        // Nếu đã có categoryId string, trả về
         return categoryId;
     }
 
     public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
 
     public int getColorResId() {
         return colorResId;
